@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 // const userRoutes = require('./routes/userRoutes');
 const rootRouter = require("./routes/rootRouter")
 
+
 // const auctionRoutes = require('./routes/auctionRoutes');
 // const bidRoutes = require('./routes/bidRoutes');
 
@@ -12,10 +13,9 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('MongoDB connected')).catch(err => console.log(err));
+mongoose.connect(process.env.MONGO_URI, {}
+).then(() => console.log('MongoDB connected')).catch(err => console.log(err));
+
 
 // Routes
 app.use("/api/v1", rootRouter)
@@ -25,7 +25,7 @@ app.use("/api/v1", rootRouter)
 // app.use('/api/bids', bidRoutes);
 
 // Starting the server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

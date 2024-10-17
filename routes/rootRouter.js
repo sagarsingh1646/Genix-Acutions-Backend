@@ -1,9 +1,13 @@
 const express = require("express");
 const router = express.Router();
-// const authRoutes = require('./routes/authRoutes');
-// const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./authRoutes');
+const userRoutes = require('./userRoutes');
+const auctionRoutes = require('./auctionRoutes')
+const bidRoutes = require("./bidRoutes")
 
-app.use('/auth', authRoutes);
-app.use('/users', userRoutes);
+router.use('/auth', authRoutes);
+router.use('/users', userRoutes);
+router.use('/auctions', auctionRoutes);
+router.use('/bids', bidRoutes);
 
 module.exports = router
