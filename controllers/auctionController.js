@@ -4,7 +4,7 @@ const User = require('../models/userModel'); // Import the User model
 // Create a new auction
 exports.createAuction = async (req, res) => {
   try {
-    const { title, description, startingBid, endDate } = req.body;
+    const { title, description, imageLink, startingBid, endDate } = req.body;
 
     // Check if all required fields are present
     if (!title || !startingBid || !endDate) {
@@ -14,8 +14,8 @@ exports.createAuction = async (req, res) => {
     const auction = new Auction({
       title,
       description,
+      imageLink,
       startingBid,
-      currentBid: startingBid, // Initialize current bid with starting bid
       endDate,
       owner: req.user.id, // Attach the logged-in user as the owner
     });

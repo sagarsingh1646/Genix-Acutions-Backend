@@ -60,7 +60,7 @@ exports.placeBid = async (req, res) => {
 exports.getBidsForAuction = async (req, res) => {
   try{
     const bids = await Bid.find({auction: req.params.auctionId})
-    .populate('bidder', 'username')
+    .populate('bidder', 'firstName')
     .sort({createdAt: -1});
 
     res.status(200).json(bids)

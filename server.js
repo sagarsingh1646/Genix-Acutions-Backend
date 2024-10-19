@@ -1,31 +1,27 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-// const authRoutes = require('./routes/authRoutes');
-// const userRoutes = require('./routes/userRoutes');
+const cors = require('cors')
+
 const rootRouter = require("./routes/rootRouter")
 
 
-// const auctionRoutes = require('./routes/auctionRoutes');
-// const bidRoutes = require('./routes/bidRoutes');
-
 dotenv.config();
 const app = express();
+app.use(cors())
 app.use(express.json());
 
+//Connect DB
 mongoose.connect(process.env.MONGO_URI, {}
 ).then(() => console.log('MongoDB connected')).catch(err => console.log(err));
 
 
-// Routes
+//Current api version V1
 app.use("/api/v1", rootRouter)
-// app.use('/api/auth', authRoutes);
-// app.use('/api/users', userRoutes);
-// app.use('/api/auctions', auctionRoutes);
-// app.use('/api/bids', bidRoutes);
+
 
 // Starting the server
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3003;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

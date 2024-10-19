@@ -1,33 +1,26 @@
-const User = require('../models/userModel');  // Ensure the path to the user model is correct
-const jwt = require('../utils/jwtUtils');  // Ensure jwtUtils is correctly imported
-const bcrypt = require('bcryptjs');  // If you are using bcrypt for hashing passwords
+const User = require('../models/userModel'); 
+const jwt = require('../utils/jwtUtils'); 
 
 // User registration (Signup)
 exports.signup = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
   try {
-    // Check if the email or username already exists
-    const existingUser = await User.findOne({
-        $or: [
-          { email: email },
-          { username: username }
-        ]
-      });
+    // Check if the email already exists
+    const existingUser = await User.findOne({ email });
+    
     if (existingUser) {
-      return res.status(400).json({ message: 'Email or Username already in use' });
+      return res.status(400).json({ message: 'Email already in use' });
     }
-
-    // Hash the password before saving it to the database
-    const hashedPassword = await bcrypt.hash(password, 8);
-    console.log("signup-hash:", hashedPassword);
 
     // Create a new user
     const user = new User({
-      username,
+      firstName,
+      lastName,
       email,
-      password: hashedPassword,
+      password,  
     });
 
+    // Save the user to the database
     await user.save();
 
     // Generate a JWT token for the user after successful registration
@@ -45,8 +38,10 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Find the user by email
+    // Check if the email already exists
     const user = await User.findOne({ email });
+
+    
 
     // If user doesn't exist
     if (!user) {
@@ -54,8 +49,7 @@ exports.login = async (req, res) => {
     }
 
     // Compare the entered password with the hashed password in the DB
-    const isMatch = await bcrypt.compare(password, user.password);  // Don't hash the password again, just compare
-    console.log("isMatch:", isMatch);
+    const isMatch = await user.comparePassword(password);  
 
     // If password doesn't match
     if (!isMatch) {

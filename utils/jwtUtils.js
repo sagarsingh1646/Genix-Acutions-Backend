@@ -7,7 +7,7 @@ exports.createToken = (user) => {
   return jwt.sign(
     {
       id: user._id,
-      username: user.username,
+      username: user.email,
     },
     secret,
     { expiresIn: '1d' }  // Token valid for 1 day

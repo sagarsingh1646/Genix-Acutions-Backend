@@ -6,7 +6,7 @@ const {
   getAuctionById,
   updateAuction,
   deleteAuction,
-} = require('../controllers/auctionController');  // Make sure this path is correct
+} = require('../controllers/auctionController');  
 
 const authMiddleware = require('../middlewares/authMiddleware');
 
